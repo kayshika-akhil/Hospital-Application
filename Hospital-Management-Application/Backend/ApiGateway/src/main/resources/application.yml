@@ -1,0 +1,32 @@
+server:
+  port: 8090
+  
+
+spring:
+  application:
+    name: gateway
+    
+
+  cloud:
+    gateway:
+      routes:
+      - id: service-1
+        uri: lb://doctor-service
+        predicates:
+        - Path=/doctor/**
+       
+      - id: service-2
+        uri: lb://patient-service
+        predicates:
+        - Path=/patient/**
+        
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            
+      default-filters:
+      - DedupeResponseHeader=Access-control-Allow-Credentials Access-Control-Allow-Origin
+          
